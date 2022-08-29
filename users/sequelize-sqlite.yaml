@@ -1,0 +1,7 @@
+dbname: users
+dbuser: noman
+username: root
+password: root
+params:
+    dialect: sqlite
+    storage: users-sequelize.sqlite3

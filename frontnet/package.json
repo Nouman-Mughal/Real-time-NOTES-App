@@ -1,0 +1,21 @@
+{
+    "name": "frontnet",
+    "version": "1.0.0",
+    "description": "Scripts to define and manage FrontNet",
+    "scripts": {
+    "build-frontnet": " sudo docker network create --driver bridge frontnet",
+    "connect-userauth": "docker network connect frontnet svc-userauth",
+    "prebuild-db-notes": "mkdir notes-data",
+    "build-db-notes": "sudo docker run --detach --name db-notes --env MYSQL_USER=notes --env MYSQL_PASSWORD=notes12345 --env MYSQL_DATABASE=notes --mount type=bind,src=/home/ahmad/Documents/notes-data,dst=/var/lib/mysql --network frontnet --env MYSQL_ROOT_PASSWORD=w0rdw0rd mysql/mysql-server:8.0 --bind_address=0.0.0.0 --socket=/var/lib/mysql/mysql.sock",
+    "stop-db-notes": "sudo docker stop db-notes",
+    "start-db-notes": "sudo docker start db-notes",
+    "build-notes": "cd ../notes && sudo npm run docker-build",
+    "postbuild-notes": "npm run launch-notes",
+    "launch-notes": "docker run --detach --name svc-notes --network frontnet node-web-development/notes",
+    "start-notes": "sudo docker start svc-notes",
+    "stop-notes": "sudo docker stop svc-notes",
+    "start-notes-service": "sudo npm run start-db-notes && sudo npm run start-notes",
+    "stop-notes-service": "sudo npm run stop-db-notes && sudo npm run stop-notes"
+    },
+    "license": "ISC"
+    }

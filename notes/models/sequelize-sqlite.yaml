@@ -1,0 +1,8 @@
+dbname: notes 
+username: 'root'
+password: root
+params: 
+    dialect: sqlite 
+    storage: notes-sequelize.sqlite3 
+    host: 172.22.0.3
+    port: 5858

@@ -1,0 +1,19 @@
+{
+    "name": "authnet",
+    "version": "1.0.0",
+    "description": "Scripts to define and manage AuthNet",
+    "scripts": {
+    "build-authnet": "sudo docker network create --driver bridge authnet",
+    "prebuild-db-userauth": "mkdir userauth-data",
+    "build-db-userauth": "sudo docker run --detach --name db-userauth --env MYSQL_USER=userauth --env MYSQL_PASSWORD=userauth --env MYSQL_DATABASE=userauth --mount type=bind,src=/home/ahmad/Documents/userauth-data,dst=/var/lib/mysql --network authnet --env MYSQL_ROOT_PASSWORD=w0rdw0rd --env DATABASE_HOST=db-userauth mysql/mysql-server:8.0 --bind_address=0.0.0.0 --socket=/var/lib/mysql/mysql.sock",
+    "stop-db-userauth": "sudo docker stop db-userauth",
+    "start-db-userauth": "sudo docker start db-userauth",
+    "build-userauth": "cd ../users && sudo npm run docker-build",
+    "postbuild-userauth": "sudo docker run --detach --name svc-userauth --network authnet svc-userauth",
+    "start-userauth": "sudo docker start svc-userauth",
+    "stop-userauth": "sudo docker stop svc-userauth",
+    "start-user-service": "sudo npm run start-db-userauth && sudo npm run start-userauth",
+    "stop-user-service": " sudo npm run stop-db-userauth && sudo npm run stop-userauth"
+    },
+    "license": "ISC"
+}
